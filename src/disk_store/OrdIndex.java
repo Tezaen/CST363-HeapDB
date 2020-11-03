@@ -19,11 +19,17 @@ public class OrdIndex implements DBIndex {
 	private class Entry {
 		int key;
 		ArrayList<BlockCount> blocks;
+		public String toString() {
+			return key + " : " + blocks;
+		}
 	}
 	
 	private class BlockCount {
 		int blockNo;
 		int count;
+		public String toString() {
+			return "["+blockNo+","+count+"]";
+		}
 	}
 	
 	ArrayList<Entry> entries;
@@ -42,6 +48,9 @@ public class OrdIndex implements DBIndex {
 		// return list of block numbers (no duplicates). 
 		// if key not found, return empty list
 		List<Integer> distinctBlockNums = new ArrayList<>();
+		if(this.entries.size() == 0) {
+			return distinctBlockNums;
+		}
 		int l;
 		int r = size();
 		for(l = 0; r - l > 1;){
@@ -62,6 +71,15 @@ public class OrdIndex implements DBIndex {
 	
 	@Override
 	public void insert(int key, int blockNum) {
+
+		int left = 0;
+		int right = entries.size() - 1;
+		int found_key;
+		while (left <= right) {
+			int middle = left + (right - left)/2;
+
+		}
+
 		if(this.lookup(key) != null) {
 			return;
 		} else {
@@ -69,7 +87,7 @@ public class OrdIndex implements DBIndex {
 			BlockCount newBlockCount = new BlockCount();
 			newEntry.key = key;
 			newBlockCount.blockNo = blockNum;
-			newBlockCount.count = 0; //What is this?
+			newBlockCount.count = 1; //What is this?
 			newEntry.blocks.add(newBlockCount);
 		}
 		//throw new UnsupportedOperationException();
@@ -82,7 +100,11 @@ public class OrdIndex implements DBIndex {
 		//  decrement count for blockNum.
 		//  if count is now 0, remove the blockNum.
 		//  if there are no block number for this key, remove the key entry.
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
+
+		if(this.lookup(key) == null) {
+
+		}
 	}
 	
 	/**
