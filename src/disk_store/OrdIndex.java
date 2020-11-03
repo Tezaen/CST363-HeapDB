@@ -56,7 +56,6 @@ public class OrdIndex implements DBIndex {
 			}
 		}
 		return distinctBlockNums;
-
 		//throw new UnsupportedOperationException();
 	}
 	
