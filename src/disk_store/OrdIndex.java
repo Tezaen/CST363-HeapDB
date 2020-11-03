@@ -71,17 +71,42 @@ public class OrdIndex implements DBIndex {
 	
 	@Override
 	public void insert(int key, int blockNum) {
-
+		System.out.println("enter insert: "+entries); //debug
+		System.out.println("Enter lookup key: " + key + " blocknum: " + blockNum);
 		int left = 0;
 		int right = entries.size() - 1;
-		int found_key;
+		int middle = 0;
+		boolean found_key = false;
 		while (left <= right) {
-			int middle = left + (right - left)/2;
+			middle = left + (right - left)/2;
 
+			if(entries.get(middle).key == key) {
+				found_key = true;
+			}
+
+			if(entries.get(middle).key < key) {
+				left = middle + 1;
+			} else {
+				right = middle - 1;
+			}
 		}
 
-		if(this.lookup(key) != null) {
-			return;
+		if(found_key) {
+			int theBlockNo;
+			boolean foundBlock = false;
+			for(BlockCount b : entries.get(middle).blocks) {
+				if(b.blockNo == blockNum) {
+					b.count++;
+					foundBlock = true;
+					break;
+				}
+			}
+			if(!foundBlock) {
+				BlockCount tempBlock = new BlockCount();
+				tempBlock.blockNo = blockNum;
+				tempBlock.count = 1;
+				entries.get(middle).blocks.add(tempBlock);
+			}
 		} else {
 			Entry newEntry = new Entry();
 			BlockCount newBlockCount = new BlockCount();
