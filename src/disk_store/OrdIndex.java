@@ -44,7 +44,7 @@ public class OrdIndex implements DBIndex {
 		List<Integer> distinctBlockNums = new ArrayList<>();
 		int l;
 		int r = size();
-		for(l = 0; r - l > 1; l++){
+		for(l = 0; r - l > 1;){
 			int m = (r + l) / 2;
 			if(entries.get(m).key == key){
 				for(BlockCount grab : entries.get(m).blocks){
@@ -57,7 +57,6 @@ public class OrdIndex implements DBIndex {
 			}
 		}
 		return distinctBlockNums;
-
 		//throw new UnsupportedOperationException();
 	}
 	
