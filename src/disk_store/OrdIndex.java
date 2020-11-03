@@ -71,8 +71,8 @@ public class OrdIndex implements DBIndex {
 	
 	@Override
 	public void insert(int key, int blockNum) {
-		System.out.println("enter insert: "+entries); //debug
-		System.out.println("Enter lookup key: " + key + " blocknum: " + blockNum);
+		//System.out.println("enter insert: "+entries); //debug
+		//System.out.println("Enter lookup key: " + key + " blocknum: " + blockNum);
 		int left = 0;
 		int right = entries.size() - 1;
 		int middle = 0;
