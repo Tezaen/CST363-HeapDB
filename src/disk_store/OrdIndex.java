@@ -18,11 +18,19 @@ public class OrdIndex implements DBIndex {
 	private class Entry {
 		int key;
 		ArrayList<BlockCount> blocks;
+
+		public String toString() {
+			return key+"::"+blocks;
+		}
 	}
 	
 	private class BlockCount {
 		int blockNo;
 		int count;
+
+		public String toString() {
+			return "[" + blockNo + "," + count + "]";
+		}
 	}
 	
 	ArrayList<Entry> entries;
@@ -58,17 +66,47 @@ public class OrdIndex implements DBIndex {
 		return distinctBlockNums;
 		//throw new UnsupportedOperationException();
 	}
-	
+
 	@Override
 	public void insert(int key, int blockNum) {
-		if(this.lookup(key) != null) {
-			return;
+		System.out.println("enter insert: "+entries); //debug
+		System.out.println("Enter lookup key: " + key + " blocknum: " + blockNum);
+		int left = 0;
+		int right = entries.size() - 1;
+		int middle = 0;
+		boolean found_key = false;
+		while (left <= right) {
+			middle = left + (right - left)/2;
+			if(entries.get(middle).key == key) {
+				found_key = true;
+			}
+			if(entries.get(middle).key < key) {
+				left = middle + 1;
+			} else {
+				right = middle - 1;
+			}
+		}
+		if(found_key) {
+			int theBlockNo;
+			boolean foundBlock = false;
+			for(BlockCount b : entries.get(middle).blocks) {
+				if(b.blockNo == blockNum) {
+					b.count++;
+					foundBlock = true;
+				}
+			}
+			if(!foundBlock) {
+				BlockCount tempBlock = new BlockCount();
+				tempBlock.blockNo = blockNum;
+				tempBlock.count = 1;
+				entries.get(middle).blocks.add(tempBlock);
+			}
 		} else {
 			Entry newEntry = new Entry();
 			BlockCount newBlockCount = new BlockCount();
 			newEntry.key = key;
 			newBlockCount.blockNo = blockNum;
-			newBlockCount.count = 0; //What is this?
+			newBlockCount.count = 1;
 			newEntry.blocks.add(newBlockCount);
 		}
 		//throw new UnsupportedOperationException();
@@ -76,12 +114,7 @@ public class OrdIndex implements DBIndex {
 
 	@Override
 	public void delete(int key, int blockNum) {
-//		int count = size();
-//		if(this.lookup(key) == null) {
-//			count--;
-//		}if(count == 0){
-//			//remove blockNum
-//		}
+
 		// lookup key 
 		//  if key not found, should not occur.  Ignore it.
 		//  decrement count for blockNum.
