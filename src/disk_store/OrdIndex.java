@@ -110,10 +110,13 @@ public class OrdIndex implements DBIndex {
 		} else {
 			Entry newEntry = new Entry();
 			BlockCount newBlockCount = new BlockCount();
+			ArrayList<BlockCount> newBlockCountlist = new ArrayList<>();
 			newEntry.key = key;
+			newEntry.blocks = newBlockCountlist;
 			newBlockCount.blockNo = blockNum;
 			newBlockCount.count = 1; //What is this?
 			newEntry.blocks.add(newBlockCount);
+			entries.add(newEntry);
 		}
 		//throw new UnsupportedOperationException();
 	}
