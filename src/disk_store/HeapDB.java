@@ -218,14 +218,14 @@ public class HeapDB implements DB, Iterable<Record> {
 				}
 				// index maintenance
 				// YOUR CODE HERE
-				
 				for (int i=0; i< indexes.length; i++) {
 					if (indexes[i]!=null) {
-						// maintain index[i], 
+						// maintain index[i],
+						IntField index = (IntField) rec.get(i);
+						indexes[i].insert(index.getValue(), blockNum );
 						// indexes[i].insert( <<column value from record>>, blockNum );
 					}
 				}
-
 				return true;
 
 			}
@@ -273,11 +273,12 @@ public class HeapDB implements DB, Iterable<Record> {
 							// YOUR CODE HERE
 						for (int i=0; i< indexes.length; i++) {
 							if (indexes[i]!=null) {
-								// maintain index[i], 
+								// maintain index[i],
+								IntField index = (IntField) rec.get(i);
+								indexes[i].delete(index.getValue(), blockNum );
 								// indexes[i].delete(<<column value>>, blockNum );
 							}
 						}
-
 						return true;
 					}
 				}
