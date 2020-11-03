@@ -33,7 +33,6 @@ public class OrdIndex implements DBIndex {
 	}
 	
 	ArrayList<Entry> entries;
-	int size = 0;
 	
 	/**
 	 * Create an new ordered index.
@@ -78,13 +77,12 @@ public class OrdIndex implements DBIndex {
 		int middle = 0;
 		boolean found_key = false;
 		while (left <= right) {
+
 			middle = left + (right - left)/2;
 
 			if(entries.get(middle).key == key) {
 				found_key = true;
-			}
-
-			if(entries.get(middle).key < key) {
+			}else if(entries.get(middle).key < key) {
 				left = middle + 1;
 			} else {
 				right = middle - 1;
@@ -114,7 +112,7 @@ public class OrdIndex implements DBIndex {
 			newEntry.key = key;
 			newEntry.blocks = newBlockCountlist;
 			newBlockCount.blockNo = blockNum;
-			newBlockCount.count = 1; //What is this?
+			newBlockCount.count = 1;
 			newEntry.blocks.add(newBlockCount);
 			entries.add(newEntry);
 		}
@@ -130,8 +128,36 @@ public class OrdIndex implements DBIndex {
 		//  if there are no block number for this key, remove the key entry.
 		//throw new UnsupportedOperationException();
 
-		if(this.lookup(key) == null) {
-
+		int left = 0;
+		int right = entries.size() - 1;
+		int middle = 0;
+		boolean foundBlock = false;
+		while (left <= right) {
+			if (entries.get(middle).key == key) {
+				for (BlockCount b : entries.get(middle).blocks) {
+					if (b.blockNo == blockNum) {
+						foundBlock = true;
+						b.count--;
+						if(b.count == 0){
+							entries.get(middle).blocks.remove(b);
+						}
+						break;
+					}
+					if (b.count == 0) {
+						entries.get(middle).blocks.remove(b);
+					}
+					if (entries.get(middle).blocks.size() == 0) {
+						entries.remove(entries.get(middle));
+					}
+				}
+				if (!foundBlock) {
+					return;
+				}
+			} else if (entries.get(middle).key < key) {
+				left = middle + 1;
+			} else {
+				right = middle - 1;
+			}
 		}
 	}
 	
@@ -139,10 +165,8 @@ public class OrdIndex implements DBIndex {
 	 * Return the number of entries in the index
 	 * @return
 	 */
-	public int size() {
-		return size;
-		// you may find it useful to implement this
-		
+	public int size(){
+		return entries.size();
 	}
 	
 	@Override
