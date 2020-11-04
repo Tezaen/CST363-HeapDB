@@ -54,7 +54,7 @@ public class OrdIndex implements DBIndex {
         int l = 0;
         int r = entries.size() - 1;
         while (l <= r) {
-            int m = (r + l) / 2;
+            int m = l + (r - l) / 2;
             if (entries.get(m).key == key) {
                 if (entries.get(m).blocks.size() > 0) {
                     List<BlockCount> tempBlock = entries.get(m).blocks;
@@ -66,9 +66,9 @@ public class OrdIndex implements DBIndex {
                     break;
                 }
             } else if (key > entries.get(m).key) {
-                l = m;
+                l = m + 1;
             } else if (key < entries.get(m).key) {
-                r = m;
+                r = m - 1;
             }
         }
         return distinctBlockNums;
