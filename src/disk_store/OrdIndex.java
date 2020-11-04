@@ -52,7 +52,7 @@ public class OrdIndex implements DBIndex {
 		}
 		int l = 0;
 		int r = entries.size() - 1;
-		while (l <= r){
+		while (r-l > 1){
 			int m = (r + l) / 2;
 			if(entries.get(m).key == key){
 				for(BlockCount grab : entries.get(m).blocks){
