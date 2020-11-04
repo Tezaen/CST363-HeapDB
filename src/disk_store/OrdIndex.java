@@ -47,23 +47,21 @@ public class OrdIndex implements DBIndex {
 		// return list of block numbers (no duplicates). 
 		// if key not found, return empty list
 		List<Integer> distinctBlockNums = new ArrayList<>();
-		if(entries.size() == 0) {
-			return distinctBlockNums;
-		}
+//		if(entries.size() == 0) {
+//			return distinctBlockNums;
+//		}
 		int l = 0;
 		int r = entries.size() - 1;
-		while (r-l > 1){
-			int m = (r + l) / 2;
+		while (r >= l){
+			int m = (l + r) / 2;
 			if(entries.get(m).key == key){
-				if (entries.get(m).blocks.size() > 0) {
-					for(BlockCount grab : entries.get(m).blocks){
-						distinctBlockNums.add(grab.blockNo);
-					}
+				for(BlockCount grab : entries.get(m).blocks){
+					distinctBlockNums.add(grab.blockNo);
 				}
 			}else if(key > entries.get(m).key){
-				l = m;
-			}else if(key < entries.get(m).key){
-				r = m;
+				l = m - 1;
+			}else{
+				r = m + 1;
 			}
 		}
 		return distinctBlockNums;
