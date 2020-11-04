@@ -143,7 +143,7 @@ public class OrdIndex implements DBIndex {
 			int middle = left + (right - left) / 2;
             if (entries.get(middle).key == key) {
             	boolean deleteBlock = false;
-            	BlockCount forDeleting = null;
+            	List<BlockCount> foundBlockList = new ArrayList<>();
                 for (BlockCount b : entries.get(middle).blocks) {
                     if (b.blockNo == blockNum) {
                         foundBlock = true;
@@ -151,11 +151,11 @@ public class OrdIndex implements DBIndex {
                     }
                     if (b.count == 0) {
                     	deleteBlock = true;
-						forDeleting = b;
+						foundBlockList.add(b);
 					}
                 }
-                if (deleteBlock && forDeleting != null) {
-                	entries.get(middle).blocks.remove(forDeleting);
+                if (deleteBlock) {
+                	entries.get(middle).blocks.removeAll(foundBlockList);
 				}
 				if (entries.get(middle).blocks.size() == 0) {
 					entries.remove(entries.get(middle));
