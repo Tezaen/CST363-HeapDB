@@ -148,12 +148,12 @@ public class OrdIndex implements DBIndex {
                         b.count--;
                     }
                     if (b.count == 0) {
-                        entries.get(middle).blocks.remove(b);
-                    }
-                    if (entries.get(middle).blocks.size() == 0) {
-                        entries.remove(entries.get(middle));
-                    }
+						entries.get(middle).blocks.remove(b);
+					}
                 }
+				if (entries.get(middle).blocks.size() == 0) {
+					entries.remove(entries.get(middle));
+				}
                 if (foundBlock) {
                     return;
                 }
