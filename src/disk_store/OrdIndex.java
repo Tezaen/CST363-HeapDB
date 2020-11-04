@@ -157,7 +157,7 @@ public class OrdIndex implements DBIndex {
                 if (deleteBlock) {
                 	entries.get(middle).blocks.removeAll(foundBlockList);
 				}
-				if (entries.get(middle).blocks.size() == 0) {
+				if (entries.get(middle).blocks.size() == 0){
 					entries.remove(entries.get(middle));
 				}
                 if (foundBlock) {
