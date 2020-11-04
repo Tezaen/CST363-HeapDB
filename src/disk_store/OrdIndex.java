@@ -138,9 +138,9 @@ public class OrdIndex implements DBIndex {
 
         int left = 0;
         int right = entries.size() - 1;
-        int middle = 0;
         boolean foundBlock = false;
         while (left <= right) {
+			int middle = left + (right - left) / 2;
             if (entries.get(middle).key == key) {
                 for (BlockCount b : entries.get(middle).blocks) {
                     if (b.blockNo == blockNum) {
