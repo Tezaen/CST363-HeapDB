@@ -50,9 +50,9 @@ public class OrdIndex implements DBIndex {
 		if(this.entries.size() == 0) {
 			return distinctBlockNums;
 		}
-		int l;
-		int r = size();
-		for(l = 0; r - l > 1;){
+		int l = 0;
+		int r = entries.size() - 1;
+		while (l <= r){
 			int m = (r + l) / 2;
 			if(entries.get(m).key == key){
 				for(BlockCount grab : entries.get(m).blocks){
@@ -82,6 +82,7 @@ public class OrdIndex implements DBIndex {
 
 			if(entries.get(middle).key == key) {
 				found_key = true;
+				break;
 			}else if(entries.get(middle).key < key) {
 				left = middle + 1;
 			} else {
@@ -138,10 +139,6 @@ public class OrdIndex implements DBIndex {
 					if (b.blockNo == blockNum) {
 						foundBlock = true;
 						b.count--;
-						if(b.count == 0){
-							entries.get(middle).blocks.remove(b);
-						}
-						break;
 					}
 					if (b.count == 0) {
 						entries.get(middle).blocks.remove(b);
@@ -150,7 +147,7 @@ public class OrdIndex implements DBIndex {
 						entries.remove(entries.get(middle));
 					}
 				}
-				if (!foundBlock) {
+				if (foundBlock) {
 					return;
 				}
 			} else if (entries.get(middle).key < key) {
