@@ -47,7 +47,7 @@ public class OrdIndex implements DBIndex {
 		// return list of block numbers (no duplicates). 
 		// if key not found, return empty list
 		List<Integer> distinctBlockNums = new ArrayList<>();
-		if(this.entries.size() == 0) {
+		if(entries.size() == 0) {
 			return distinctBlockNums;
 		}
 		int l = 0;
@@ -55,8 +55,10 @@ public class OrdIndex implements DBIndex {
 		while (l <= r){
 			int m = (r + l) / 2;
 			if(entries.get(m).key == key){
-				for(BlockCount grab : entries.get(m).blocks){
-					distinctBlockNums.add(grab.blockNo);
+				if (entries.get(m).blocks.size() > 0) {
+					for(BlockCount grab : entries.get(m).blocks){
+						distinctBlockNums.add(grab.blockNo);
+					}
 				}
 			}else if(key > entries.get(m).key){
 				l = m;
