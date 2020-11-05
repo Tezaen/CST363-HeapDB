@@ -190,9 +190,10 @@ class HeapDBTest {
 		assertTrue(recs.size() == 102);    // was == 102
 		
 		// create index on field c
-		System.out.println("Before create on field c"+recs.size());
+		//System.out.println("Before create on field c"+recs.size());
 		db.createOrderedIndex("c");
-		System.out.println("After create on field c"+recs.size());
+//		System.out.println("After create on field c"+recs.size());
+//		System.out.println(db.toStringDiagnostic());
 		// try lookups again, with the index
 		recs = db.lookup("c", 3);
 		System.out.println("TWO "+recs.size());

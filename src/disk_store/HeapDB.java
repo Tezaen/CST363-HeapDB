@@ -441,11 +441,13 @@ public class HeapDB implements DB, Iterable<Record> {
             int recsOnLine = 0;
             for (int recNum = 0; recNum < recMap.size(); recNum++) {
                 if (recMap.getBit(recNum)) {
-
+                    int loc = recordLocation(recNum);
+                    rec.deserialize(buffer.buffer, loc);
+                    int key = ((IntField) rec.get(fieldNum) ).getValue();
+                    index.insert(key, blockNum);
                 }
             }
         }
-
         //throw new UnsupportedOperationException();
     }
 
