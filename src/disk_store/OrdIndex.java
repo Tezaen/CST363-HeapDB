@@ -92,13 +92,13 @@ public class OrdIndex implements DBIndex {
                 break;
             }
             if (entries.get(middle).key < key) {
-                left = middle + 1;
+                left = left + 1;
             } else {
-                right = middle - 1;
+                right = right - 1;
             }
         }
 
-        if (found_key) {
+        if (found_key) { //if a key was found
             boolean foundBlock = false;
             for (BlockCount b : entries.get(middle).blocks) {
                 if (b.blockNo == blockNum) {
@@ -113,7 +113,7 @@ public class OrdIndex implements DBIndex {
                 tempBlock.count = 1;
                 entries.get(middle).blocks.add(tempBlock);
             }
-        } else {
+        } else { //if a key was not found
             Entry newEntry = new Entry();
             BlockCount newBlockCount = new BlockCount();
             newEntry.blocks = new ArrayList<>();
@@ -124,8 +124,7 @@ public class OrdIndex implements DBIndex {
             newBlockCount.blockNo = blockNum;
             newBlockCount.count = 1;
             newEntry.blocks.add(newBlockCount);
-//            this.size++;
-            entries.add(newEntry);
+            entries.add(left + 1, newEntry);
         }
         //throw new UnsupportedOperationException();
     }
