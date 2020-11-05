@@ -183,15 +183,16 @@ class HeapDBTest {
 		rand = new Random(42);  // set seed for repeatability
 		insertRecords(db, numRecords);
 		
-		System.out.println(db);
+		//System.out.println(db);
 		// lookup records with field c value of 3
 		List<Record> recs = db.lookup("c", 3);
 		System.out.println("ONE "+recs.size());
 		assertTrue(recs.size() == 102);    // was == 102
 		
 		// create index on field c
+		System.out.println("Before create on field c"+recs.size());
 		db.createOrderedIndex("c");
-		
+		System.out.println("After create on field c"+recs.size());
 		// try lookups again, with the index
 		recs = db.lookup("c", 3);
 		System.out.println("TWO "+recs.size());
@@ -229,6 +230,7 @@ class HeapDBTest {
 		// try the lookup again, without the index
 		db.deleteIndex("c");
 		recs = db.lookup("c", 3);
+		System.out.println(recs.size() + " == " + m);
 		assertTrue(recs.size() == m);
 		System.out.println("by indexed lookup: "+m+"; by sequential lookup: "+recs.size());
 		

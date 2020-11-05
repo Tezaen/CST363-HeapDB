@@ -430,7 +430,21 @@ public class HeapDB implements DB, Iterable<Record> {
         // HINT:  see method diagnosticPrint for example of how to
         // iterate of all data blocks in table and all rows
         // in each block
+        Record rec = schema.blankRecord();
 
+        // read and print the block bitmap
+        bf.read(bitmapBlock, blockmapBuffer);
+
+        for (int blockNum = bitmapBlock + 1; blockNum <= bf.getLastBlockIndex(); blockNum++) {
+            bf.read(blockNum, buffer);
+            // print the record bitmap of block
+            int recsOnLine = 0;
+            for (int recNum = 0; recNum < recMap.size(); recNum++) {
+                if (recMap.getBit(recNum)) {
+
+                }
+            }
+        }
 
         //throw new UnsupportedOperationException();
     }
