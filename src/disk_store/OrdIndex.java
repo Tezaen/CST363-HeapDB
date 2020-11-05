@@ -92,9 +92,9 @@ public class OrdIndex implements DBIndex {
                 break;
             }
             if (entries.get(middle).key < key) {
-                left = left + 1;
+                left = middle + 1;
             } else {
-                right = right - 1;
+                right = middle - 1;
             }
         }
 
@@ -124,7 +124,7 @@ public class OrdIndex implements DBIndex {
             newBlockCount.blockNo = blockNum;
             newBlockCount.count = 1;
             newEntry.blocks.add(newBlockCount);
-            entries.add(left + 1, newEntry);
+            entries.add(left, newEntry);
         }
         //throw new UnsupportedOperationException();
     }
