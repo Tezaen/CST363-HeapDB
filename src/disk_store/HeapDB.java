@@ -316,8 +316,10 @@ public class HeapDB implements DB, Iterable<Record> {
             // no index on this column.  do linear scan
             // add all records into "result"
             for (Record rec : this) {
-                // ...
-                result.add(rec);
+                IntField num = (IntField) rec.get(fieldNum);
+                if(num.getValue() == key) {
+                    result.add(rec);
+                }
             }
 
         } else {
