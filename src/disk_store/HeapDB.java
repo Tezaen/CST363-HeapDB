@@ -443,7 +443,7 @@ public class HeapDB implements DB, Iterable<Record> {
                 if (recMap.getBit(recNum)) {
                     int loc = recordLocation(recNum);
                     rec.deserialize(buffer.buffer, loc);
-                    int key = ((IntField) rec.get(fieldNum) ).getValue();
+                    int key = ((IntField) rec.get(fieldNum)).getValue();
                     index.insert(key, blockNum);
                 }
             }
