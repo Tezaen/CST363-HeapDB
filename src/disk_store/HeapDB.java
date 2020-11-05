@@ -328,11 +328,11 @@ public class HeapDB implements DB, Iterable<Record> {
             // call lookupInBlock to get the actual records
             // add records into "result"
 			List<Integer> listOfBlockNo = indexes[fieldNum].lookup(key);
-			List<Record> listOfFoundRecs = new ArrayList<>();
 			//lookupInBlock(fieldNum, key, listOfBlockNo);
+//            System.out.println("---\n" + listOfBlockNo + "\n----");
 			for (Integer blockNo : listOfBlockNo) {
 				List<Record> tempListOfRecs = lookupInBlock(fieldNum, key, blockNo);
-				listOfFoundRecs.addAll(tempListOfRecs);
+				result.addAll(tempListOfRecs);
 			}
         }
 

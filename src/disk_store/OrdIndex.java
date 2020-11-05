@@ -58,11 +58,8 @@ public class OrdIndex implements DBIndex {
             int m = l + (r - l) / 2;
             if (entries.get(m).key == key) {
                 if (entries.get(m).blocks.size() > 0) {
-                    List<BlockCount> tempBlock = entries.get(m).blocks;
                     for (BlockCount grab : entries.get(m).blocks) {
-                        if (!distinctBlockNums.contains(grab.blockNo)) {
-                            distinctBlockNums.add(grab.blockNo);
-                        }
+                        distinctBlockNums.add(grab.blockNo);
                     }
                     break;
                 }
@@ -73,6 +70,7 @@ public class OrdIndex implements DBIndex {
                 r = m - 1;
             }
         }
+//        System.out.println(distinctBlockNums);
         return distinctBlockNums;
         //throw new UnsupportedOperationException();
     }
@@ -101,7 +99,6 @@ public class OrdIndex implements DBIndex {
         }
 
         if (found_key) {
-            int theBlockNo;
             boolean foundBlock = false;
             for (BlockCount b : entries.get(middle).blocks) {
                 if (b.blockNo == blockNum) {
