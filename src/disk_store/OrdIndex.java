@@ -42,18 +42,18 @@ public class OrdIndex implements DBIndex {
         entries = new ArrayList<>();
     }
 
-    int size = size();
+
     @Override
     public List<Integer> lookup(int key) {
         // binary search of entries arraylist
         // return list of block numbers (no duplicates).
         // if key not found, return empty list
         List<Integer> distinctBlockNums = new ArrayList<>();
-        if (size == 0) {
+        if (entries.size() == 0) {
             return distinctBlockNums;
         }
         int l = 0;
-        int r = size - 1;
+        int r = entries.size() - 1;
         while (l <= r) {
             int m = l + (r - l) / 2;
             if (entries.get(m).key == key) {
@@ -82,7 +82,7 @@ public class OrdIndex implements DBIndex {
         //System.out.println("enter insert: "+entries); //debug
         //System.out.println("Enter lookup key: " + key + " blocknum: " + blockNum);
         int left = 0;
-        int right = size - 1;
+        int right = entries.size() - 1;
         int middle = 0;
         boolean found_key = false;
         while (left <= right) {
@@ -122,19 +122,13 @@ public class OrdIndex implements DBIndex {
             newEntry.blocks = new ArrayList<>();
             newEntry.key = key;
 
-//            ArrayList<BlockCount> newBlockCountlist = new ArrayList<>();
-//            newEntry.blocks = newBlockCountlist;
+            ArrayList<BlockCount> newBlockCountlist = new ArrayList<>();
+            newEntry.blocks = newBlockCountlist;
             newBlockCount.blockNo = blockNum;
             newBlockCount.count = 1;
             newEntry.blocks.add(newBlockCount);
-            this.size++;
-
-            if(entries.isEmpty()) {
-                entries.add(newEntry);
-            }
-//            }else if(
-//            }
-
+//            this.size++;
+            entries.add(newEntry);
         }
         //throw new UnsupportedOperationException();
     }
@@ -148,7 +142,7 @@ public class OrdIndex implements DBIndex {
         //  if there are no block number for this key, remove the key entry.
         //throw new UnsupportedOperationException();
         int left = 0;
-        int right = size - 1;
+        int right = size() - 1;
         boolean foundBlock = false;
         while (left <= right) {
             int middle = left + (right - left) / 2;
@@ -159,7 +153,7 @@ public class OrdIndex implements DBIndex {
                     if (b.blockNo == blockNum) {
                         foundBlock = true;
                         b.count--;
-                        this.size--;
+                        //this.size--;
                     }
                     if (b.count == 0) {
                         deleteBlock = true;
@@ -190,12 +184,12 @@ public class OrdIndex implements DBIndex {
      * @return
      */
     public int size() {
-//        int count = 0;
-//        for (Entry e : entries) {
-//            count += e.blocks.size();
-//        }
-//        return count;
-        return entries.size();
+        int count = 0;
+        for (Entry e : entries) {
+            count += e.blocks.size();
+        }
+        return count;
+//        return entries.size();
     }
 
     @Override
