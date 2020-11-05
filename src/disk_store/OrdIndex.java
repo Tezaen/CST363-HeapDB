@@ -65,7 +65,8 @@ public class OrdIndex implements DBIndex {
 					}
                     break;
                 }
-            } else if (key > entries.get(m).key) {
+            }
+            if (key > entries.get(m).key) {
                 l = m + 1;
             } else if (key < entries.get(m).key) {
                 r = m - 1;
@@ -90,7 +91,8 @@ public class OrdIndex implements DBIndex {
             if (entries.get(middle).key == key) {
                 found_key = true;
                 break;
-            } else if (entries.get(middle).key < key) {
+            }
+            if (entries.get(middle).key < key) {
                 left = middle + 1;
             } else {
                 right = middle - 1;
@@ -135,29 +137,35 @@ public class OrdIndex implements DBIndex {
         //  if count is now 0, remove the blockNum.
         //  if there are no block number for this key, remove the key entry.
         //throw new UnsupportedOperationException();
-
         int left = 0;
         int right = entries.size() - 1;
-        int middle = 0;
         boolean foundBlock = false;
         while (left <= right) {
+			int middle = left + (right - left) / 2;
             if (entries.get(middle).key == key) {
+            	boolean deleteBlock = false;
+            	List<BlockCount> foundBlockList = new ArrayList<>();
                 for (BlockCount b : entries.get(middle).blocks) {
                     if (b.blockNo == blockNum) {
                         foundBlock = true;
                         b.count--;
                     }
                     if (b.count == 0) {
-                        entries.get(middle).blocks.remove(b);
-                    }
-                    if (entries.get(middle).blocks.size() == 0) {
-                        entries.remove(entries.get(middle));
-                    }
+                    	deleteBlock = true;
+						foundBlockList.add(b);
+					}
                 }
+                if (deleteBlock) {
+                	entries.get(middle).blocks.removeAll(foundBlockList);
+				}
+				if (entries.get(middle).blocks.size() == 0){
+					entries.remove(entries.get(middle));
+				}
                 if (foundBlock) {
                     return;
                 }
-            } else if (entries.get(middle).key < key) {
+            }
+            if (entries.get(middle).key < key) {
                 left = middle + 1;
             } else {
                 right = middle - 1;
@@ -171,7 +179,12 @@ public class OrdIndex implements DBIndex {
      * @return
      */
     public int size() {
-        return entries.size();
+        int count = 0;
+        for (Entry e : entries) {
+        	count += e.blocks.size();
+		}
+        return count;
+        //return entries.size();
     }
 
     @Override
