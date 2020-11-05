@@ -59,10 +59,10 @@ public class OrdIndex implements DBIndex {
                 if (entries.get(m).blocks.size() > 0) {
                     List<BlockCount> tempBlock = entries.get(m).blocks;
                     for (BlockCount grab : entries.get(m).blocks) {
-                    	if (!distinctBlockNums.contains(grab.blockNo)) {
-							distinctBlockNums.add(grab.blockNo);
-						}
-					}
+                        if (!distinctBlockNums.contains(grab.blockNo)) {
+                            distinctBlockNums.add(grab.blockNo);
+                        }
+                    }
                     break;
                 }
             }
@@ -141,26 +141,26 @@ public class OrdIndex implements DBIndex {
         int right = entries.size() - 1;
         boolean foundBlock = false;
         while (left <= right) {
-			int middle = left + (right - left) / 2;
+            int middle = left + (right - left) / 2;
             if (entries.get(middle).key == key) {
-            	boolean deleteBlock = false;
-            	List<BlockCount> foundBlockList = new ArrayList<>();
+                boolean deleteBlock = false;
+                List<BlockCount> foundBlockList = new ArrayList<>();
                 for (BlockCount b : entries.get(middle).blocks) {
                     if (b.blockNo == blockNum) {
                         foundBlock = true;
                         b.count--;
                     }
                     if (b.count == 0) {
-                    	deleteBlock = true;
-						foundBlockList.add(b);
-					}
+                        deleteBlock = true;
+                        foundBlockList.add(b);
+                    }
                 }
                 if (deleteBlock) {
-                	entries.get(middle).blocks.removeAll(foundBlockList);
-				}
-				if (entries.get(middle).blocks.size() == 0){
-					entries.remove(entries.get(middle));
-				}
+                    entries.get(middle).blocks.removeAll(foundBlockList);
+                }
+                if (entries.get(middle).blocks.size() == 0) {
+                    entries.remove(entries.get(middle));
+                }
                 if (foundBlock) {
                     return;
                 }
@@ -181,8 +181,8 @@ public class OrdIndex implements DBIndex {
     public int size() {
         int count = 0;
         for (Entry e : entries) {
-        	count += e.blocks.size();
-		}
+            count += e.blocks.size();
+        }
         return count;
         //return entries.size();
     }
