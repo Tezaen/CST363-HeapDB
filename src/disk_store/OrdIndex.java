@@ -54,7 +54,7 @@ public class OrdIndex implements DBIndex {
         }
         int l = 0;
         int r = entries.size() - 1;
-        //binary search
+        // binary search
         while (l <= r) {
             int m = l + (r - l) / 2;
             if (entries.get(m).key == key) {
@@ -138,6 +138,7 @@ public class OrdIndex implements DBIndex {
         int left = 0;
         int right = size() - 1;
         boolean foundBlock = false;
+        // binary search for key
         while (left <= right) {
             int middle = left + (right - left) / 2;
             if (entries.get(middle).key == key) {
@@ -150,7 +151,7 @@ public class OrdIndex implements DBIndex {
                     }
                     if (b.count == 0) {
                         deleteBlock = true;
-                        foundBlockList.add(b);
+                        foundBlockList.add(b); // add block to list of blocks to be deleted
                     }
                 }
                 if (deleteBlock) {
@@ -177,13 +178,12 @@ public class OrdIndex implements DBIndex {
      *
      * @return
      */
-    public int size() {
+    public int size() { //returns the number of blocks in each entry for all entries
         int count = 0;
         for (Entry e : entries) {
             count += e.blocks.size();
         }
         return count;
-//        return entries.size();
     }
 
     @Override
