@@ -54,6 +54,7 @@ public class OrdIndex implements DBIndex {
         }
         int l = 0;
         int r = entries.size() - 1;
+        //binary search
         while (l <= r) {
             int m = l + (r - l) / 2;
             if (entries.get(m).key == key) {
@@ -70,19 +71,16 @@ public class OrdIndex implements DBIndex {
                 r = m - 1;
             }
         }
-//        System.out.println(distinctBlockNums);
         return distinctBlockNums;
-        //throw new UnsupportedOperationException();
     }
 
     @Override
     public void insert(int key, int blockNum) {
-        //System.out.println("enter insert: "+entries); //debug
-        //System.out.println("Enter lookup key: " + key + " blocknum: " + blockNum);
         int left = 0;
         int right = entries.size() - 1;
         int middle = 0;
         boolean found_key = false;
+        //binary search
         while (left <= right) {
 
             middle = left + (right - left) / 2;
@@ -100,6 +98,7 @@ public class OrdIndex implements DBIndex {
 
         if (found_key) { //if a key was found
             boolean foundBlock = false;
+            //iterate over all blocks
             for (BlockCount b : entries.get(middle).blocks) {
                 if (b.blockNo == blockNum) {
                     b.count++;
@@ -114,7 +113,7 @@ public class OrdIndex implements DBIndex {
                 entries.get(middle).blocks.add(tempBlock);
             }
         } else { //if a key was not found
-            Entry newEntry = new Entry();
+            Entry newEntry = new Entry(); //create new entry
             BlockCount newBlockCount = new BlockCount();
             newEntry.blocks = new ArrayList<>();
             newEntry.key = key;
@@ -124,9 +123,8 @@ public class OrdIndex implements DBIndex {
             newBlockCount.blockNo = blockNum;
             newBlockCount.count = 1;
             newEntry.blocks.add(newBlockCount);
-            entries.add(left, newEntry);
+            entries.add(left, newEntry); //insert entry into the left most part of the array
         }
-        //throw new UnsupportedOperationException();
     }
 
     @Override
@@ -149,7 +147,6 @@ public class OrdIndex implements DBIndex {
                     if (b.blockNo == blockNum) {
                         foundBlock = true;
                         b.count--;
-                        //this.size--;
                     }
                     if (b.count == 0) {
                         deleteBlock = true;
@@ -157,15 +154,16 @@ public class OrdIndex implements DBIndex {
                     }
                 }
                 if (deleteBlock) {
-                    entries.get(middle).blocks.removeAll(foundBlockList);
+                    entries.get(middle).blocks.removeAll(foundBlockList); //remove all blocks found
                 }
                 if (entries.get(middle).blocks.size() == 0) {
-                    entries.remove(entries.get(middle));
+                    entries.remove(entries.get(middle)); // if it is empty, get rid of entry.
                 }
                 if (foundBlock) {
                     return;
                 }
             }
+            //binary search
             if (entries.get(middle).key < key) {
                 left = middle + 1;
             } else {
