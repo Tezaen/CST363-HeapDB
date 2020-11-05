@@ -328,7 +328,8 @@ public class HeapDB implements DB, Iterable<Record> {
 				}
 
 		// replace the following line with your return statement
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
+		return result;
 	}
 
 	// Perform a linear search in the block with the given blockNum
@@ -422,7 +423,7 @@ public class HeapDB implements DB, Iterable<Record> {
 		// in each block
 		
 	
-		throw new UnsupportedOperationException();
+		//throw new UnsupportedOperationException();
 	}
 
 	/**
