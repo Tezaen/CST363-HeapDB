@@ -102,11 +102,11 @@ public class OrdIndex implements DBIndex {
             for (BlockCount b : entries.get(middle).blocks) {
                 if (b.blockNo == blockNum) {
                     b.count++;
-                    foundBlock = true;
+                    foundBlock = true; // flag if block is found
                     break;
                 }
             }
-            if (!foundBlock) {
+            if (!foundBlock) {// if block was not found that means we make a new block and begin its count at 1
                 BlockCount tempBlock = new BlockCount();
                 tempBlock.blockNo = blockNum;
                 tempBlock.count = 1;
@@ -146,7 +146,7 @@ public class OrdIndex implements DBIndex {
                 List<BlockCount> foundBlockList = new ArrayList<>();
                 for (BlockCount b : entries.get(middle).blocks) {
                     if (b.blockNo == blockNum) {
-                        foundBlock = true;
+                        foundBlock = true;// flag decides whether block# was found
                         b.count--;
                     }
                     if (b.count == 0) {

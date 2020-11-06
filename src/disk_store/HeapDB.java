@@ -217,6 +217,8 @@ public class HeapDB implements DB, Iterable<Record> {
                 }
                 // index maintenance
                 // YOUR CODE HERE
+
+                //using IntField we hold that index and then insert it into the indexes array
                 for (int i = 0; i < indexes.length; i++) {
                     if (indexes[i] != null) {
                         // maintain index[i],
@@ -270,6 +272,8 @@ public class HeapDB implements DB, Iterable<Record> {
                         }
                         // index maintenance
                         // YOUR CODE HERE
+
+                        //using IntField we hold that index and then delete it from the indexes array
                         for (int i = 0; i < indexes.length; i++) {
                             if (indexes[i] != null) {
                                 // maintain index[i],
